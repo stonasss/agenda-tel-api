@@ -15,7 +15,7 @@ async function registerUser({email, password}) {
     return newUser;
 }
 
-export const authRepositories = {
+export const userRepositories = {
     findUserByEmail,
     registerUser,
 }
