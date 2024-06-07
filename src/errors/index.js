@@ -11,3 +11,10 @@ export function duplicatedEmailError() {
         message: "e-mail already in use",
     };
 }
+
+export function invalidCredentialsError() {
+    return {
+        name: "InvalidCredentialsError",
+        message: "incorrect e-mail or password",
+    }
+}

@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
-import { duplicatedEmailError, notFoundError } from "../errors/index.js";
+import { duplicatedEmailError, invalidCredentialsError, notFoundError } from "../errors/index.js";
 import { userRepositories } from "../repositories/user-repositories.js";
+import { AuthToken } from "../models/auth-schema.js";
 
 async function registerUser({ email, password }) {
     const emailExists = await userRepositories.findUserByEmail(email);
@@ -8,9 +9,10 @@ async function registerUser({ email, password }) {
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log(hashedPassword)
     const newUser = await userRepositories.registerUser({
         email,
-        hashedPassword,
+        password: hashedPassword,
     });
     return newUser;
 }
@@ -21,7 +23,20 @@ async function getUsers() {
     return users;
 }
 
+async function loginUser({ email, password }) {
+    const userExists = await userRepositories.findUserByEmail(email);
+    if (userExists.length === 0) throw notFoundError()
+
+    const identicalPassword = await bcrypt.compare(password, userExists.password)
+    if (!identicalPassword) throw invalidCredentialsError()
+
+    const token = new AuthToken();
+    const newSession = await userRepositories.authenticate(userExists._id, token.uuid, token.expire_at)
+    return newSession;
+}
+
 export const userServices = {
     registerUser,
-    getUsers
+    getUsers,
+    loginUser
 }

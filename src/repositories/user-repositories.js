@@ -23,8 +23,30 @@ async function findUsers() {
     return users;
 }
 
+async function authenticate(id, token, expiration) {
+    const session = await db
+        .collection('sessions')
+        .updateOne(
+            { 
+                user_id: id 
+            },
+            {
+                $set: {
+                    user_id: id,
+                    token: token,
+                    expire_at: expiration,
+                },
+            },
+            {
+                upsert: true
+            }
+        );
+    return session;
+}
+
 export const userRepositories = {
     findUserByEmail,
     registerUser,
-    findUsers
+    findUsers,
+    authenticate
 }
