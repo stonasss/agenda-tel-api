@@ -13,6 +13,12 @@ export function errorHandler(err, req, res) {
         })
     }
 
+    if (err.name === "InvalidCredentialsError") {
+        return res.status(httpStatus.UNAUTHORIZED).send({
+            message: err.message,
+        })
+    }
+
     console.error(err);
     res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
         error: "InternalServerError",

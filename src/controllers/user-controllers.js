@@ -23,3 +23,15 @@ export async function getUsers(req, res) {
         errorHandler(error, req, res);
     }
 }
+
+export async function loginUser(req, res) {
+    const { email, password } = req.body;
+
+    try {
+        const user = await userServices.loginUser({ email, password })
+        res.status(httpStatus.OK).send({ user })
+    } catch (err) {
+        const error = err
+        errorHandler(error, req, res);
+    }
+}
