@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { duplicatedEmailError } from "../errors/index.js";
+import { duplicatedEmailError, notFoundError } from "../errors/index.js";
 import { userRepositories } from "../repositories/user-repositories.js";
 
 async function registerUser({ email, password }) {
@@ -15,6 +15,13 @@ async function registerUser({ email, password }) {
     return newUser;
 }
 
+async function getUsers() {
+    const users = await userRepositories.findUsers();
+    if (users.length === 0) throw notFoundError();
+    return users;
+}
+
 export const userServices = {
     registerUser,
+    getUsers
 }

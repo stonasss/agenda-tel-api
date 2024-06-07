@@ -13,3 +13,13 @@ export async function register(req, res) {
         errorHandler(error, req, res);
     }
 }
+
+export async function getUsers(req, res) {
+    try {
+        const users = await userServices.getUsers();
+        res.status(httpStatus.OK).send({ users })
+    } catch (err) {
+        const error = err
+        errorHandler(error, req, res);
+    }
+}

@@ -3,7 +3,7 @@ import { contactRepositories } from "../repositories/contact-repositories.js"
 
 async function getContacts() {
     const contacts = await contactRepositories.findContacts();
-    if (!contacts) throw notFoundError();
+    if (contacts.length === 0) throw notFoundError();
     return contacts;
 }
 
