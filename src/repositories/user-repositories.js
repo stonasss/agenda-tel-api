@@ -15,7 +15,16 @@ async function registerUser({email, password}) {
     return newUser;
 }
 
+async function findUsers() {
+    const users = await db
+        .collection('users')
+        .find()
+        .toArray();
+    return users;
+}
+
 export const userRepositories = {
     findUserByEmail,
     registerUser,
+    findUsers
 }
