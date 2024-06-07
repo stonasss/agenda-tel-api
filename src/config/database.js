@@ -9,6 +9,7 @@ let db;
 try {
     await mongoClient.connect();
     db = mongoClient.db();
+    console.log("conectado ao MongoDB")
 } catch (err) {
     console.log(err);
 }
