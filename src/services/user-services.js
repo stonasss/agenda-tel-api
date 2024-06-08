@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import { duplicatedEmailError, invalidCredentialsError, notFoundError } from "../errors/index.js";
 import { userRepositories } from "../repositories/user-repositories.js";
-import { AuthToken } from "../models/auth-schema.js";
+// import { AuthToken } from "../models/auth-schema.js";
+import jwt from "jsonwebtoken";
 import { contactRepositories } from "../repositories/contact-repositories.js";
 
 async function registerUser({ email, password }) {
@@ -30,12 +31,12 @@ async function loginUser({ email, password }) {
     const identicalPassword = await bcrypt.compare(password, userExists.password)
     if (!identicalPassword) throw invalidCredentialsError()
 
-    const token = new AuthToken();
-    const newSession = await userRepositories.authenticate(userExists._id, token.uuid, token.expire_at)
+    const token = jwt.sign({ id: userExists._id }, process.env.SECRET_KEY, { expiresIn: 86400 });
+    await userRepositories.authenticate(userExists._id, token)
 
     const userContacts = await contactRepositories.findContactListById(userExists._id)
     if (!userContacts) await contactRepositories.createContactList(userExists._id, email)
-    return newSession;
+    return token;
 }
 
 export const userServices = {
