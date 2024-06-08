@@ -30,7 +30,7 @@ async function findUsers() {
     return users;
 }
 
-async function authenticate(id, token, expiration) {
+async function authenticate(id, token) {
     const session = await db
         .collection('sessions')
         .updateOne(
@@ -40,8 +40,7 @@ async function authenticate(id, token, expiration) {
             {
                 $set: {
                     user_id: id,
-                    token: token,
-                    expire_at: expiration,
+                    token: token
                 },
             },
             {
