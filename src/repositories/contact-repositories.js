@@ -49,7 +49,6 @@ async function findContactByPhone(phone, userId) {
         .findOne(
             { _id: new ObjectId(userId), "contacts.phone": phone }
         );
-    console.log(contact)
     return contact;
 }
 
@@ -70,6 +69,16 @@ async function updateContact(phone, name, email, image, userId) {
     return updatedContact
 }
 
+async function deleteContact(phone, userId) {
+    const deleteContact = await db
+        .collection('contacts')
+        .updateOne(
+            { _id: new ObjectId(userId) },
+            { $pull: { contacts: { phone: phone } } }
+        )
+    return deleteContact;
+}
+
 export const contactRepositories = {
     findContacts,
     findContactListById,
@@ -77,4 +86,5 @@ export const contactRepositories = {
     createContactList,
     newContact,
     updateContact,
+    deleteContact
 }

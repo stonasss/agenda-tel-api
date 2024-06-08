@@ -25,9 +25,17 @@ async function updateContact({ phone, name, email, image, userId }) {
     return contact;
 }
 
+async function deleteContact({ phone, userId }) {
+    const contactExists = await contactRepositories.findContactByPhone(phone, userId)
+    if (!contactExists) throw notFoundError();
+    const contact = await contactRepositories.deleteContact(phone, userId);
+    return contact;
+}
+
 export const contactServices = {
     getContacts,
     getContactsById,
     newContact,
-    updateContact
+    updateContact,
+    deleteContact
 }

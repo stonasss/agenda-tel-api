@@ -49,3 +49,16 @@ export async function updateContact(req, res) {
         errorHandler(error, req, res)
     }
 }
+
+export async function deleteContact(req, res) {
+    const { phone } = req.body;
+    const userId = res.locals.session
+
+    try {
+        await contactServices.deleteContact({ phone, userId })
+        res.status(httpStatus.OK).send({ })
+    } catch (err) {
+        const error = err;
+        errorHandler(error, req, res)
+    }
+}

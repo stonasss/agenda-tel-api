@@ -6,3 +6,7 @@ export const contactSchema = joi.object({
     email: joi.string().email().required(),
     image: joi.string().uri()
 })
+
+export const nameSchema = joi.object({
+    phone: joi.number().required()
+})
