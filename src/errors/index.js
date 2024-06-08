@@ -18,3 +18,10 @@ export function invalidCredentialsError() {
         message: "incorrect e-mail or password",
     }
 }
+
+export function duplicatedPhoneError() {
+    return {
+        name: "DuplicatedPhoneError",
+        message: "phone already registered"
+    }
+}

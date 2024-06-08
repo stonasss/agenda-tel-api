@@ -36,7 +36,7 @@ async function loginUser({ email, password }) {
 
     const userContacts = await contactRepositories.findContactListById(userExists._id)
     if (!userContacts) await contactRepositories.createContactList(userExists._id, email)
-    return token;
+    return {token, userContacts};
 }
 
 export const userServices = {
