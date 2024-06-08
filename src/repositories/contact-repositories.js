@@ -43,9 +43,38 @@ async function newContact(phone, name, email, image, userId) {
     return newContact;
 }
 
+async function findContactByPhone(phone, userId) {
+    const contact = await db
+        .collection('contacts')
+        .findOne(
+            { _id: new ObjectId(userId), "contacts.phone": phone }
+        );
+    console.log(contact)
+    return contact;
+}
+
+async function updateContact(phone, name, email, image, userId) {
+    const updatedContact = await db
+        .collection('contacts')
+        .updateOne(
+            { _id: new ObjectId(userId), "contacts.phone": phone },
+            {
+                $set: {
+                    "contacts.$.phone": phone,
+                    "contacts.$.name": name,
+                    "contacts.$.email": email,
+                    "contacts.$.image": image
+                }
+            }
+        )
+    return updatedContact
+}
+
 export const contactRepositories = {
     findContacts,
     findContactListById,
+    findContactByPhone,
     createContactList,
-    newContact
+    newContact,
+    updateContact,
 }
