@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { duplicatedEmailError, invalidCredentialsError, notFoundError } from "../errors/index.js";
 import { userRepositories } from "../repositories/user-repositories.js";
 import { AuthToken } from "../models/auth-schema.js";
+import { contactRepositories } from "../repositories/contact-repositories.js";
 
 async function registerUser({ email, password }) {
     const emailExists = await userRepositories.findUserByEmail(email);
@@ -9,7 +10,6 @@ async function registerUser({ email, password }) {
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    console.log(hashedPassword)
     const newUser = await userRepositories.registerUser({
         email,
         password: hashedPassword,
@@ -32,6 +32,9 @@ async function loginUser({ email, password }) {
 
     const token = new AuthToken();
     const newSession = await userRepositories.authenticate(userExists._id, token.uuid, token.expire_at)
+
+    const userContacts = await contactRepositories.findContactListById(userExists._id)
+    if (!userContacts) await contactRepositories.createContactList(userExists._id, email)
     return newSession;
 }
 
