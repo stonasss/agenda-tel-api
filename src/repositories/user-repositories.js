@@ -7,6 +7,13 @@ async function findUserByEmail(email) {
     return userEmail;
 }
 
+async function findSession(token) {
+    const userToken = await db
+        .collection('sessions')
+        .findOne({ token: token });
+    return userToken
+}
+
 async function registerUser({email, password}) {
     const newUser = { email, password } ;
     await db
@@ -46,6 +53,7 @@ async function authenticate(id, token, expiration) {
 
 export const userRepositories = {
     findUserByEmail,
+    findSession,
     registerUser,
     findUsers,
     authenticate

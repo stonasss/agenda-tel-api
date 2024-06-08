@@ -7,6 +7,12 @@ async function getContacts() {
     return contacts;
 }
 
+async function newContact({ phone, name, email, image, userId }) {
+    const contact = await contactRepositories.newContact(phone, name, email, image, userId)
+    return contact;
+}
+
 export const contactServices = {
     getContacts,
+    newContact
 }

@@ -11,3 +11,16 @@ export async function getContacts(req, res) {
         errorHandler(error, req, res);
     }
 }
+
+export async function newContact(req, res) {
+    const { phone, name, email, image } = req.body;
+    const userId = res.locals.session
+
+    try {
+        await contactServices.newContact({ phone, name, email, image, userId })
+        res.status(httpStatus.CREATED).send({ })
+    } catch (err) {
+        const error = err;
+        errorHandler(error, req, res)
+    }
+}
