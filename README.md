@@ -6,7 +6,7 @@ Esse repositório contém a API da Lista de Contatos (https://github.com/stonass
 
 <div align="left">
 <img src="https://img.shields.io/badge/node-%23007ACC.svg?style=for-the-badge&logo=node&logoColor=white" alt="Node" Title="node"  />
-<img src="https://img.shields.io/badge/mongob-%23316192.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" Title="mongodb" />
+<img src="https://img.shields.io/badge/mongodb-%23316192.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" Title="mongodb" />
 <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="Express" Title="express"  />
   </div>
 
