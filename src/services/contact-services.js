@@ -8,8 +8,15 @@ async function getContacts() {
 }
 
 async function getContactsById(userId) {
-    const userContacts = await contactRepositories.findContactListById(userId);
-    if (userContacts.length === 0) throw notFoundError();
+    const contacts = await contactRepositories.findContactListById(userId);
+    if (contacts.length === 0) throw notFoundError();
+
+    const userContacts = contacts.contacts.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+        return 0
+    })
+
     return userContacts
 }
 
